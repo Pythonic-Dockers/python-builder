@@ -1,0 +1,25 @@
+#!/usr/bin/sh
+set -ex
+
+src_dir="$(pwd)/src"
+
+wget -O python.tar.xz "https://www.python.org/ftp/python/$PYTHON_VERSION%/Python-$PYTHON_VERSION.tar.xz"
+tar -xJC $src_dir --strip-components=1 -f python.tar.xz
+
+cd $src_dir
+
+gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"
+
+./configure
+ 	--build="$gnuArch"
+	--prefix=$BUILD_PATH
+ 	--enable-loadable-sqlite-extensions
+ 	--enable-optimizations
+ 	--enable-option-checking=fatal
+ 	--enable-shared
+ 	--with-system-expat
+ 	--with-system-ffi
+ 	--without-ensurepip
+
+make -j "$(nproc)"
+make install
