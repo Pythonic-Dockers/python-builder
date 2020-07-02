@@ -8,13 +8,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: azure/docker-login@v1
-      with:
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-    - name: Build image
-      env:
-        CONTAINER_IMAGE: ${{ secrets.REGISTRY_USERNAME }}/${{ github.event.repository.name }}
-      run: |
-        docker build -t $CONTAINER_IMAGE .
-        docker push $CONTAINER_IMAGE
+      - uses: actions/checkout@v1
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build & push
+        env:
+          CONTAINER_IMAGE: ${{ secrets.DOCKER_USER }}/${{ github.event.repository.name }}
+        run: |
+          docker build -t $CONTAINER_IMAGE .
+          docker push $CONTAINER_IMAGE
