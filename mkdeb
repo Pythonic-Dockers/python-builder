@@ -1,0 +1,26 @@
+#!/bin/bash
+set -ex
+
+dpkg_dir="$(pwd)/dpkg"
+usr_dir="$dpkg_dir/usr"
+debian_dir="$dpkg_dir/DEBIAN"
+
+rm -rf $dpkg_dir
+mkdir -p "$dpkg_dir" "$debian_dir" "$usr_dir"
+
+cp -r $BUILD_PATH/* $usr_dir
+
+cat <<EOF > $debian_dir/control
+Source: https://github.com/Pythonic-Dockers/python-builder
+Section: devel
+Priority: optional
+Maintainer: $MAINTAINER
+Package: python
+Version: $PYTHON_VERSION
+Architecture: amd64
+Description: Python $PYTHON_VERSION binaries
+EOF
+
+md5deep -l -o f -r $usr_dir > $debian_dir/md5sums
+
+dpkg-deb -b $dpkg_dir python_$PYTHON_VERSION.deb
