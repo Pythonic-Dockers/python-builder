@@ -14,7 +14,7 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - name: Build image
       env:
-        CONTAINER_IMAGE: ${{ secrets.REGISTRY_USERNAME }}/$GITHUB_REPOSITORY_NAME
+        CONTAINER_IMAGE: ${{ secrets.REGISTRY_USERNAME }}/${{ github.event.repository.name }}
       run: |
         docker build . -t $CONTAINER_IMAGE
         docker push $CONTAINER_IMAGE
