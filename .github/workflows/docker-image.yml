@@ -16,5 +16,5 @@ jobs:
       env:
         CONTAINER_IMAGE: ${{ secrets.REGISTRY_USERNAME }}/${{ github.event.repository.name }}
       run: |
-        docker build . -t $CONTAINER_IMAGE
+        docker build -t $CONTAINER_IMAGE .
         docker push $CONTAINER_IMAGE
