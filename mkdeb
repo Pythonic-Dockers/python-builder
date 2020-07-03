@@ -26,7 +26,8 @@ EOF
 cat <<EOF > $debian_dir/postinst
 #! /bin/sh -e
 
-./usr/bin/python3 /usr/dpkg/pip/get-pip.py
+ldconfig
+/usr/bin/python3 /usr/dpkg/pip/get-pip.py
 rm -rf /usr/dpkg/pip/
 EOF
 
