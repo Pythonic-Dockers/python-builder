@@ -4,9 +4,10 @@ set -ex
 dpkg_dir="$(pwd)/dpkg"
 usr_dir="$dpkg_dir/usr"
 debian_dir="$dpkg_dir/DEBIAN"
+pip_dir="$usr_dir/dpkg/pip"
 
 rm -rf $dpkg_dir
-mkdir -p "$dpkg_dir" "$debian_dir" "$usr_dir"
+mkdir -p "$dpkg_dir" "$debian_dir" "$usr_dir" "$pip_dir"
 
 cp -r $BUILD_PATH/* $usr_dir
 
@@ -33,7 +34,7 @@ EOF
 
 chmod +x $debian_dir/postinst
 
-wget -O $usr_dir/dpkg/pip/get-pip.py https://bootstrap.pypa.io/get-pip.py
+wget -O $pip_dir/get-pip.py https://bootstrap.pypa.io/get-pip.py
 
 md5deep -l -o f -r $usr_dir > $debian_dir/md5sums
 
