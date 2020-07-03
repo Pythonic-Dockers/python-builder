@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 set -ex
 
 dpkg_dir="$(pwd)/dpkg"
@@ -18,8 +18,21 @@ Maintainer: $MAINTAINER
 Package: python
 Version: $PYTHON_VERSION
 Architecture: amd64
+Depends: libbz2-1.0, libc6, libc6, libdb5.3, libexpat1, libffi6, liblzma5, libmpdec2, libncursesw5, libreadline7, libsqlite3-0, libssl1.1, libtinfo5, mime-support, mime-support, zlib1g
+Pre-Depends: libc6
 Description: Python $PYTHON_VERSION binaries
 EOF
+
+cat <<EOF > $debian_dir/postinst
+#! /bin/sh -e
+
+./usr/bin/python3 /usr/dpkg/pip/get-pip.py
+rm -rf /usr/dpkg/pip/
+EOF
+
+chmod +x $debian_dir/postinst
+
+wget -O $usr_dir/dpkg/pip/get-pip.py https://bootstrap.pypa.io/get-pip.py
 
 md5deep -l -o f -r $usr_dir > $debian_dir/md5sums
 

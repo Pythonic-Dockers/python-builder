@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 set -ex
 
 src_dir="$(pwd)/src"
@@ -24,7 +24,3 @@ architecture="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"
 
 make -j "$(nproc)"
 make install
-
-#ldconfig $BUILD_PATH/lib
-#wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
-#/$BUILD_PATH/bin/python3 get-pip.py
