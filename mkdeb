@@ -36,6 +36,8 @@ chmod +x $debian_dir/postinst
 
 wget -O $pip_dir/get-pip.py https://bootstrap.pypa.io/get-pip.py
 
-md5deep -l -o f -r $usr_dir > $debian_dir/md5sums
+cd $dpkg_dir
+md5deep -l -o f -r usr/ > $debian_dir/md5sums
+cd -
 
 dpkg-deb -b $dpkg_dir python_$PYTHON_VERSION.deb
